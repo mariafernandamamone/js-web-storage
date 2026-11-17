@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Cookies</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <main class="contenido">
+    <h1>Mi Sitio Web</h1>
+    <p>Este es contenido de ejemplo para probar nuestro sistema de consentimiento de cookies.</p>
+    <p>Abre la consola del navegador (F12) y la pestaña Application / Almacenamiento para ver las cookies en tiempo real.</p>
+  </main>
+
+  <!-- Banner de Cookies (oculto inicialmente) -->
+  <div id="cookie-banner" class="cookie-banner oculto">
+    <p>Utilizamos cookies propias y de analítica para mejorar tu experiencia. ¿Aceptas el uso de cookies?</p>
+    <div class="cookie-botones">
+      <button id="btn-aceptar" class="btn aceptar">Aceptar</button>
+      <button id="btn-cancelar" class="btn cancelar">Cancelar</button>
+    </div>
+  </div>
+
+  <script src="cookies.js"></script>
+</body>
+</html>

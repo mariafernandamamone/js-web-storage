@@ -1,0 +1,1 @@
+console.log("📊 Script de analítica cargado y ejecutándose correctamente.");
