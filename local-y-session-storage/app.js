@@ -38,6 +38,26 @@ const cardsArray = [...baseColors, ...baseColors];
 
 // === Game Functions ===
 
+// Saves the current board state, matched pairs, and elapsed time to localStorage
+function saveGame() {
+  const cards = document.querySelectorAll('.memory-card');
+  const arrayCards = Array.from(cards);
+  const cardsData = arrayCards.map(card => {
+    const color = card.dataset.color;
+    const matched = card.classList.contains('matched');
+    return {
+      color: color,
+      matched: matched
+    };
+  });
+  const gameState = {
+    seconds: seconds,
+    matchedPairs: matchedPairs,
+    cards: cardsData
+  }
+  localStorage.setItem('memoryGameState', JSON.stringify(gameState));
+}
+
 // Starts the completion timer on the first card interaction
 function startTimer() {
   if (timerInterval === null) {
