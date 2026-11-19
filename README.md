@@ -2,6 +2,10 @@
 
 Prácticas del módulo de almacenamiento en el navegador (**Cookies**, **localStorage** y **sessionStorage**) desarrolladas con JavaScript Vanilla (ES6+), HTML5 y CSS3.
 
+## Live Demo
+
+- [Ver proyecto en GitHub Pages](https://mariafernandamamone.github.io/js-web-storage/)
+
 ## Proyectos incluidos
 
 1. **Gestión de Consentimiento de Cookies (`/cookies`)**

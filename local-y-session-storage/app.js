@@ -63,7 +63,7 @@ function startTimer() {
   if (timerInterval === null) {
     timerInterval = setInterval(() => {
       seconds++;
-      timerDisplay.textContent = `Time: ${seconds}s`;
+      timerDisplay.textContent = `Tiempo: ${seconds}s`;
       saveGame();
     }, 1000);
   }
@@ -116,12 +116,12 @@ function createCard(color, isMatched = false) {
 
         // Update pair counter and check for game completion
         matchedPairs++;
-        pairsCounter.textContent = `Pairs: ${matchedPairs} / 15`;
+        pairsCounter.textContent = `Parejas: ${matchedPairs} / 15`;
         saveGame();
 
         if (matchedPairs === 15) {
           clearInterval(timerInterval);
-          winMessage.textContent = `Congratulations! You matched all pairs in ${seconds} seconds!`;
+          winMessage.textContent = `¡Felicitaciones! Encontraste todas las parejas en ${seconds} segundos.`;
         }
       } else {
         // Mismatch: hide both cards again after a brief delay
@@ -173,12 +173,12 @@ function loadGame() {
   const gameState = JSON.parse(savedData);
   seconds = gameState.seconds;
   matchedPairs = gameState.matchedPairs;
-  timerDisplay.textContent = `Time: ${seconds}s`;
-  pairsCounter.textContent = `Pairs: ${matchedPairs} / 15`;
+  timerDisplay.textContent = `Tiempo: ${seconds}s`;
+  pairsCounter.textContent = `Parejas: ${matchedPairs} / 15`;
 
   if (matchedPairs === 15) {
     clearInterval(timerInterval);
-    winMessage.textContent = `Congratulations! You matched all pairs in ${seconds} seconds!`;
+    winMessage.textContent = `¡Felicitaciones! Encontraste todas las parejas en ${seconds} segundos.`;
   }
 
   memoryGrid.innerHTML = '';
@@ -195,8 +195,8 @@ function resetGame() {
   matchedPairs = 0;
   draggedCard = null;
 
-  timerDisplay.textContent = 'Time: 0s';
-  pairsCounter.textContent = 'Pairs: 0 / 15';
+  timerDisplay.textContent = 'Tiempo: 0s';
+  pairsCounter.textContent = 'Parejas: 0 / 15';
   winMessage.textContent = '';
 
   localStorage.removeItem('memoryGameState');
