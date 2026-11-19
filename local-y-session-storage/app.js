@@ -64,23 +64,23 @@ function startTimer() {
     timerInterval = setInterval(() => {
       seconds++;
       timerDisplay.textContent = `Time: ${seconds}s`;
+      saveGame();
     }, 1000);
   }
 }
 
-// Shuffles the deck and populates the 6x5 grid
-function initGame() {
-  memoryGrid.innerHTML = '';
-
-  // Shuffle cards randomly
-  cardsArray.sort(() => Math.random() - 0.5);
-
-  // Generate and append each card to the grid
-  cardsArray.forEach(color => {
-    const card = document.createElement('div');
+// Creates a single memory card element, restores its matched state if needed, and binds drag-and-drop events
+function createCard(color, isMatched = false) {
+  const card = document.createElement('div');
     card.classList.add('memory-card');
     card.dataset.color = color;
     card.draggable = true;
+
+    if (isMatched) {
+      card.classList.add('matched');
+      card.draggable = false;
+      card.style.backgroundColor = color;
+    }
 
     // Reveal color and store reference when dragging starts
     card.addEventListener('dragstart', function() {
@@ -100,7 +100,8 @@ function initGame() {
       event.preventDefault();
 
       // Ignore drops onto itself or already matched cards
-      if (!draggedCard || draggedCard === card || card.classList.contains('matched')) return;
+      if (!draggedCard || draggedCard === card || card.classList.contains('matched'))  
+      return;
 
       // Reveal target card color
       card.style.backgroundColor = card.dataset.color;
@@ -116,6 +117,7 @@ function initGame() {
         // Update pair counter and check for game completion
         matchedPairs++;
         pairsCounter.textContent = `Pairs: ${matchedPairs} / 15`;
+        saveGame();
 
         if (matchedPairs === 15) {
           clearInterval(timerInterval);
@@ -143,6 +145,45 @@ function initGame() {
     });
 
     memoryGrid.appendChild(card);
+}
+
+// Shuffles the deck and populates the 6x5 grid
+function initGame() {
+  memoryGrid.innerHTML = '';
+
+  // Shuffle cards randomly
+  cardsArray.sort(() => Math.random() - 0.5);
+
+  // Generate and append each card to the grid
+  cardsArray.forEach(color => {
+    createCard(color);
+  });
+
+  saveGame();
+}
+
+// Restores saved game progress from localStorage or starts a new game if none exists
+function loadGame() {
+  const savedData = localStorage.getItem('memoryGameState');
+  if (!savedData) {
+    initGame();
+    return;
+  }
+
+  const gameState = JSON.parse(savedData);
+  seconds = gameState.seconds;
+  matchedPairs = gameState.matchedPairs;
+  timerDisplay.textContent = `Time: ${seconds}s`;
+  pairsCounter.textContent = `Pairs: ${matchedPairs} / 15`;
+
+  if (matchedPairs === 15) {
+    clearInterval(timerInterval);
+    winMessage.textContent = `Congratulations! You matched all pairs in ${seconds} seconds!`;
+  }
+
+  memoryGrid.innerHTML = '';
+  gameState.cards.forEach(cardData => {
+    createCard(cardData.color, cardData.matched);
   });
 }
 
@@ -158,9 +199,10 @@ function resetGame() {
   pairsCounter.textContent = 'Pairs: 0 / 15';
   winMessage.textContent = '';
 
+  localStorage.removeItem('memoryGameState');
   initGame();
 }
 
 // === Event Listeners & Initialization ===
 resetBtn.addEventListener('click', resetGame);
-initGame();
+loadGame();
